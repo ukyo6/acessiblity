@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.ukyoo.kt">
+          xmlns:tools="http://schemas.android.com/tools" package="com.ukyoo.access">
 
     <application
             android:allowBackup="true"
@@ -9,7 +9,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.ukyoo.access.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -18,7 +18,7 @@
         </activity>
 
         <service
-                android:name=".DYHBService"
+                android:name="com.ukyoo.access.DYHBService"
                 android:enabled="true"
                 android:exported="true"
                 android:label="@string/douya_hongbao"

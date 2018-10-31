@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Kt</string>
+    <string name="app_name">access</string>
+    <string name="desc">打开抢红包服务可以帮助你模拟点击</string>
     <string name="douya_hongbao">豆芽红包</string>
 </resources>

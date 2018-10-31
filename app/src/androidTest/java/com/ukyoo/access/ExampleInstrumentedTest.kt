@@ -1,4 +1,4 @@
-package com.ukyoo.kt
+package com.ukyoo.access
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

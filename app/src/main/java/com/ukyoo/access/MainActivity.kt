@@ -1,15 +1,17 @@
-package com.ukyoo.kt
+package com.ukyoo.access
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils.SimpleStringSplitter
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         var switchHb = findViewById<Button>(R.id.btn_hb)
         switchHb.setOnClickListener(this)
+
+
     }
 
     override fun onClick(v: View?) {
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         .setNegativeButton("确定") { dialog, _ ->
                             dialog.dismiss()
                             val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                            startActivityForResult(intent, 1)
+                            startActivity(intent)
                         }
                         .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
                         .create()
@@ -52,16 +56,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (context == null) {
             return false
         }
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val runningServices = activityManager.getRunningServices(100)// 获取正在运行的服务列表
-        if (runningServices.size < 0) {
-            return false
+        var accessibilityEnable: Int = 0
+        val serviceName: String = context.packageName + "/" + className
+        try {
+            accessibilityEnable =
+                    Settings.Secure.getInt(context.contentResolver, Settings.Secure.ACCESSIBILITY_ENABLED, 0)
+        } catch (e: Exception) {
+            Log.e("mainActivity", "get accessibility enable failed, the err:" + e.message)
         }
-        for (i in runningServices.indices) {
-            val service = runningServices[i].service
-            if (service.className == className) {
-                return true
+        if (accessibilityEnable == 1) {
+            val mStringColonSplitter = SimpleStringSplitter(':')
+            val settingValue =
+                Settings.Secure.getString(context.contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+
+            if (settingValue != null) {
+                mStringColonSplitter.setString(settingValue)
+                while (mStringColonSplitter.hasNext()) {
+                    val accessibilityService: String = mStringColonSplitter.next()
+                    if (accessibilityService.equals(serviceName, true)) {
+                        Log.v("mainActivity", "We've found the correct setting - accessibility is switched on!");
+                        return true
+                    }
+                }
             }
+        } else {
+            Log.d("mainActivity", "Accessibility service disable")
         }
         return false
     }
