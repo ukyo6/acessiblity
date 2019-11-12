@@ -26,10 +26,10 @@ class DYHBService : AccessibilityService() {
         }
         //如果当前的事件类型是窗口内容出现了变化，那么判断是否有红包视图出现
         try {
+            val s = "com.suning" //包名
             if (event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-                val s = "xxxx" //包名
                 val weikaiList: List<AccessibilityNodeInfo> =
-                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s:id/receive")
+                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s.snmessenger:id/receive")
 
                 for (nodeInfo in weikaiList) {
                     if (nodeInfo.text == "领取红包") {
@@ -37,10 +37,9 @@ class DYHBService : AccessibilityService() {
                     }
                 }
             }
-            val s = "xxxxxx"
             if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED || event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
                 val clickedWindowList =
-                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s:id/redpackets_open")
+                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s.mobile.epa.redpacket:id/redpackets_open")
                 if (clickedWindowList.size > 0) {
                     val curNodeInfo1 = clickedWindowList[0]
                     curNodeInfo1.performAction(AccessibilityNodeInfo.ACTION_CLICK)
@@ -48,7 +47,7 @@ class DYHBService : AccessibilityService() {
             }
             if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 val backlist =
-                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s:id/back_btn")
+                    mRootNodeInfo!!.findAccessibilityNodeInfosByViewId("$s.mobile.epa.redpacket:id/back_btn")
                 if (backlist.size > 0) {
                     val curNodeInfo1 = backlist[0]
                     curNodeInfo1.performAction(AccessibilityNodeInfo.ACTION_CLICK)

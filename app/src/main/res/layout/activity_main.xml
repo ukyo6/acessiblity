@@ -6,12 +6,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:orientation="vertical"
         tools:context=".MainActivity">
 
     <Button
-            android:id="@+id/btn_hb"
+            android:id="@+id/btn_hb_dy"
             app:switchPadding="30dp"
-            android:text="开启抢红包"
+            android:text="豆芽抢红包"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+    <Button
+            android:id="@+id/btn_hb_wx"
+            app:switchPadding="30dp"
+            android:text="微信抢红包"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

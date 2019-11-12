@@ -21,15 +21,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var switchHb = findViewById<Button>(R.id.btn_hb)
-        switchHb.setOnClickListener(this)
+        val btnDy = findViewById<Button>(R.id.btn_hb_dy)
+        btnDy.setOnClickListener(this)
+
+        val btnWx = findViewById<Button>(R.id.btn_hb_wx)
+        btnWx.setOnClickListener(this)
+
 
 
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_hb -> {
+            R.id.btn_hb_dy -> {
                 // 判断服务是否开启
                 val isOpen = isAccessibilitySettingsOn(this, DYHBService::class.java.name)
                 if (!isOpen) {
@@ -49,6 +53,29 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(mContext, "服务已开启", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            R.id.btn_hb_wx -> {
+                // 判断服务是否开启
+                val isOpen = isAccessibilitySettingsOn(this, WXHBService::class.java.name)
+                if (!isOpen) {
+                    AlertDialog.Builder(mContext)
+                        .setTitle("无障碍服务申请说明")
+                        .setMessage("需要开启 无障碍服务 以达到模拟点击的效果.请在接下来的页面开启 微信_红包选项")
+                        .setNegativeButton("确定") { dialog, _ ->
+                            dialog.dismiss()
+                            val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                            startActivity(intent)
+                        }
+                        .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
+                        .create()
+                        .show()
+                } else {
+                    startService(Intent(mContext, WXHBService::class.java))
+                    Toast.makeText(mContext, "服务已开启", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
         }
     }
 
